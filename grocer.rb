@@ -1,5 +1,22 @@
+require 'pry'
+
 def consolidate_cart(cart)
-  # code here
+  new_cart = {}
+
+  
+  cart.each do |sku|
+    sku.each do |item, data|
+      new_cart[item] = data
+
+      if new_cart[item].has_key?(:count)
+        new_cart[item][:count] += 1 
+      else
+        new_cart[item][:count] = 1
+      end
+  
+    end
+  end
+  new_cart
 end
 
 def apply_coupons(cart, coupons)
