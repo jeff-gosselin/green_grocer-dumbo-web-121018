@@ -33,20 +33,21 @@ def apply_coupons(cart, coupons)
       
         
       if coupon[:item] == item  
-        binding.pry
+        
         coupon_name = "#{item} W/COUPON"
         reduced[item][:count] -= coupon[:num]
+        
       end
       
       if reduced.key?(coupon_name) && reduced[item][:count] >= coupon[:num]
         reduced[coupon_name][:count] += 1
       else
         reduced[coupon_name] = {price: cost, :clearance => info[:clearance], count: 1 }
-        
       end
     end
   end
   reduced
+  binding.pry
 end
 
 
