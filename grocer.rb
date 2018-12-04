@@ -21,33 +21,59 @@ def consolidate_cart(cart)
 end
 
 def apply_coupons(cart, coupons)
-  reduced = cart.dup
-  coupon_name = nil
-  
+  the_discount = {}
   
   cart.each do |item, info|
     coupons.each do |coupon|
-      
-      cost = coupon[:cost] 
-      number = coupon[:num]
-      
-        
-      if coupon[:item] == item  
-        binding.pry
-        coupon_name = "#{item} W/COUPON"
-        reduced[item][:count] -= coupon[:num]
+    
+      binding.pry
+      if coupon[:item] == item
+        the_discount["#{coupons[0][:item]} W/COUPON"] = {:price => coupons[0][:cost], :count => 1, :clearance => info[:clearance]}
+      else  
+        return cart
       end
       
-      if reduced.key?(coupon_name) && reduced[item][:count] >= coupon[:num]
-        reduced[coupon_name][:count] += 1
+      if coupons[x.index][:num] >= info[:count]
+        qty = coupons[0][:num] - info[:count]
+        cart[item][:count] = qty
       else
-        reduced[coupon_name] = {price: cost, :clearance => info[:clearance], count: 1 }
+        qty = info[:count] - coupons[0][:num]
+        cart[item][:count] = qty
         
       end
+    
     end
   end
-  reduced
+
+  cart.merge(the_discount)
 end
+
+# def apply_coupons(cart, coupons)
+#   reduced = cart.dup
+#   coupon_name = nil
+  
+#   cart.each do |item, info|
+#     coupons.each do |coupon|
+      
+#       if coupon[:item] == item  && reduced[item][:count] >= coupon[:num]
+        
+#         coupon_name = "#{item} W/COUPON"
+#         reduced[item][:count] -= coupon[:num]
+        
+#       end
+      
+#       if reduced.key?(coupon_name) && reduced[item][:count] >= coupon[:num]
+#         reduced[coupon_name][:count] += 1
+#       else
+#         reduced[coupon_name] = {price: coupon[:cost], :clearance => info[:clearance], count: 1 }
+        
+#       end
+#     end
+#   end
+#   reduced
+  
+
+# end
 
 
 
